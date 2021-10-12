@@ -1,0 +1,42 @@
+@use './assets/scss/predefine/position';
+@use './assets/scss/predefine/zindex';
+
+@mixin hover-focus($opacity, $time, $isDarker: true, $active: false) {
+  position: relative;
+  * {
+    position: relative;
+    z-index: zindex.$z-index-3;
+  }
+  &::after {
+    content: '';
+    @include position.top-left(0, 0);
+    width: 100%;
+    height: 100%;
+
+    // define background color to after element
+    @if $isDarker {
+      background-color: black;
+    } @else {
+      background-color: white;
+    }
+
+    z-index: 1;
+    opacity: 0;
+    transition: $time ease-in;
+    will-change: opacity;
+  }
+
+  @if $active {
+    &.active {
+      &::after {
+        opacity: $opacity;
+      }
+    }
+  } @else {
+    &:hover, &:focus {
+      &::after {
+        opacity: $opacity;
+      }
+    }
+  }
+}
