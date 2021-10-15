@@ -34,7 +34,7 @@
   }
   .link {
     width: min(100%, 250px);
-    --bgColor: #8E44AD; // FIXME przekazywany parametr powinien być var.$main
+    --bgColor: #1FCC79; // #8E44AD; // FIXME przekazywany parametr powinien być var.$main
     --color: white;
     .link-button {
       width: 100%;
