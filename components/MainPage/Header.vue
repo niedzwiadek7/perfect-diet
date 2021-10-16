@@ -12,7 +12,7 @@
 .image-wrapper {
   margin: {
     top: 20px;
-    bottom: 2rem;
+    bottom: 2em;
   }
   width: 100%;
   height: 50vh;

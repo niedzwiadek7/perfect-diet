@@ -24,13 +24,13 @@
   .title {
     font-size: 1.5rem;
     font-weight: 700;
-    margin-bottom: 2rem;
+    margin-bottom: 2em;
   }
   .desc {
     width: 300px;
     color: var.$light-text-7;
     text-align: center;
-    margin-bottom: 5rem;
+    margin-bottom: 5em;
   }
   .link {
     width: min(100%, 250px);

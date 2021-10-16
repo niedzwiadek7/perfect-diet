@@ -3,7 +3,7 @@
     <slot name="icon" class="icon" />
     <input
       :type="type !== 'password' ? type : (show ? 'text' : type)"
-      class="input"
+      class="input-type-text"
       :placeholder="placeholder"
       :value="value"
       @input="change($event.target.value)"
@@ -61,9 +61,8 @@ export default Vue.extend({
 
 .wrapper {
   @include flex.center-center;
-  gap: 1rem;
+  gap: 1em;
   position: relative;
-  width: 100%;
   padding: {
     left: 1.5em;
     top: .5em;
@@ -71,9 +70,9 @@ export default Vue.extend({
     right: 1.5em;
   }
   background-color: transparent;
-  .input {
+  .input-type-text {
     width: 100%;
-    font-size: 1rem;
+    font-size: 1em;
     background: transparent;
     border: none;
     &:focus {
