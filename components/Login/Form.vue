@@ -2,7 +2,7 @@
   <div class="form-wrapper">
     <main class="form">
       <UIInput
-        v-model="login"
+        v-model="user.email"
         type="email"
         placeholder="Email lub numer telefonu"
         class="input login"
@@ -10,7 +10,7 @@
         <UIIconsLoginEmail slot="icon" class="icon" />
       </UIInput>
       <UIInput
-        v-model="password"
+        v-model="user.password"
         type="password"
         placeholder="Hasło"
         class="input password"
@@ -54,12 +54,15 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import LoginData from '@/assets/interface/User/login/LoginData';
 
 export default Vue.extend({
   data () {
     return {
-      login: '' as String,
-      password: '' as String
+      user: {
+        email: '',
+        password: ''
+      } as LoginData
     }
   }
 })
