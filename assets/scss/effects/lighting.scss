@@ -1,7 +1,7 @@
 @use './assets/scss/predefine/position';
 @use './assets/scss/predefine/zindex';
 
-@mixin hover-focus($opacity, $time, $isDarker: true, $active: false) {
+@mixin lighting($opacity, $time, $isDarker: true, $active: false) {
   position: relative;
   * {
     position: relative;

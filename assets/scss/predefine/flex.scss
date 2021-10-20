@@ -4,3 +4,10 @@
   align-items: center;
   flex-direction: $direction;
 }
+
+@mixin start-center($direction: row) {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: $direction;
+}
