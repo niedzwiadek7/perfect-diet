@@ -82,13 +82,16 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+@use './assets/scss/effects/lighting';
 @use './assets/scss/predefine/position';
 @use './assets/scss/predefine/flex';
 @use './assets/scss/predefine/zindex';
 @use './assets/scss/var';
 
 .wrapper {
-  position: relative;
+  @include lighting.lighting-border-for-input(
+      .3s, 2px dashed var.$light-text-14, 2px dashed var.$main
+  );
   .wrapper-no-file {
     @include flex.center-center(column);
     padding: 1em;
@@ -152,33 +155,6 @@ export default Vue.extend({
         --bgColor: #f00; //FIXME should be var.$exit
         --color: #fff;
       }
-    }
-  }
-  &::before {
-    content: '';
-    @include position.bottom-left(0, 0);
-    width: 100%;
-    height: 100%;
-    border: 2px dashed var.$light-text-14;
-    border-radius: 20px;
-    z-index: -1;
-  }
-
-  &::after {
-    content: '';
-    @include position.bottom-left(0, 0);
-    width: 100%;
-    height: 100%;
-    border: 2px dashed var.$main;
-    border-radius: 20px;
-    transition: .3s ease-in-out;
-    opacity: 0;
-    z-index: -1;
-  }
-
-  &:focus-within {
-    &::after {
-      opacity: 1;
     }
   }
 }

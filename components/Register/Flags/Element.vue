@@ -51,9 +51,7 @@ export default Vue.extend({
     }
     &::after {
       content: '';
-      @include position.bottom-left(0, 0);
-      width: 100%;
-      height: 100%;
+      @include position.full-fill;
       background-color: lighten(var.$main, 45%);
       border-radius: 50%;
       opacity: 0;

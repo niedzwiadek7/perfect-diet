@@ -55,14 +55,17 @@ export default Vue.extend({
 </script>
 
 <style lang='scss' scoped>
+@use './assets/scss/effects/lighting';
 @use './assets/scss/predefine/position';
 @use './assets/scss/predefine/flex';
 @use './assets/scss/var';
 
 .wrapper {
   @include flex.center-center;
+  @include lighting.lighting-border-for-input(
+    .3s, 2px solid var.$light-text-14, 2px solid var.$main
+  );
   gap: 1em;
-  position: relative;
   padding: {
     left: 1.5em;
     top: .5em;
@@ -98,33 +101,6 @@ export default Vue.extend({
     }
     &.hidden::after {
       transform: scale(1) rotate(45deg);
-    }
-  }
-  &::before {
-    content: '';
-    @include position.bottom-left(0, 0);
-    width: 100%;
-    height: 100%;
-    border: 2px solid var.$light-text-14;
-    border-radius: 20px;
-    z-index: -1;
-  }
-
-  &::after {
-    content: '';
-    @include position.bottom-left(0, 0);
-    width: 100%;
-    height: 100%;
-    border: 2px solid var.$main;
-    border-radius: 20px;
-    transition: .3s ease-in-out;
-    opacity: 0;
-    z-index: -1;
-  }
-
-  &:focus-within {
-    &::after {
-      opacity: 1;
     }
   }
 }

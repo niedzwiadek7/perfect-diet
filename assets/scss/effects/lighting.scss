@@ -1,5 +1,6 @@
 @use './assets/scss/predefine/position';
 @use './assets/scss/predefine/zindex';
+@use './assets/scss/var';
 
 @mixin lighting($opacity, $time, $isDarker: true, $active: false) {
   position: relative;
@@ -9,7 +10,7 @@
   }
   &::after {
     content: '';
-    @include position.top-left(0, 0);
+    @include position.full-fill;
     width: 100%;
     height: 100%;
 
@@ -37,6 +38,33 @@
       &::after {
         opacity: $opacity;
       }
+    }
+  }
+}
+
+@mixin lighting-border-for-input($time, $border-from, $border-to) {
+  position: relative;
+  &::before {
+    content: '';
+    @include position.full-fill;
+    border: $border-from;
+    border-radius: 20px;
+    z-index: zindex.$z-index-0;
+  }
+
+  &::after {
+    content: '';
+    @include position.full-fill;
+    border: $border-to;
+    border-radius: 20px;
+    transition: $time ease-in-out;
+    opacity: 0;
+    z-index: zindex.$z-index-0;
+  }
+
+  &:focus-within {
+    &::after {
+      opacity: 1;
     }
   }
 }
