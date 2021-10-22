@@ -11,3 +11,10 @@
   align-items: center;
   flex-direction: $direction;
 }
+
+@mixin around-center($direction: row) {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: $direction;
+}
