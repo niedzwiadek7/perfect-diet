@@ -1,4 +1,5 @@
 interface User {
+  fullName: string,
   firstName: string,
   lastName: string,
   email: string,
@@ -10,6 +11,6 @@ interface User {
 }
 
 export type UserDataType = 'firstName' | 'lastName' | 'email' | 'password' |
-  'controlPassword' | 'confirmStatute';
+  'controlPassword' | 'confirmStatute'
 
 export default User
