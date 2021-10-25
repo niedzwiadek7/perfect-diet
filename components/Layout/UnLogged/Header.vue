@@ -33,6 +33,7 @@ export default Vue.extend({
   margin-bottom: 1.5rem;
 
   .title {
+    text-align: center;
     margin-bottom: .8rem;
     color: var.$light-text-3;
     font-size: 1.6rem;
@@ -40,6 +41,7 @@ export default Vue.extend({
   }
 
   .desc {
+    text-align: center;
     color: var.$light-text-7;
   }
 }
