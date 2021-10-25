@@ -61,9 +61,12 @@
 
       <RegisterFlags class="flags" />
 
-      <UIButtonSimple class="login-button">
+      <UIButtonSimple
+        class="login-button"
+        @click="register()"
+      >
         <span class="caption">
-          Zaloguj się
+          Zarejestruj się
         </span>
       </UIButtonSimple>
 
@@ -124,6 +127,11 @@ export default Vue.extend({
       }
 
       this.user.firstName = arr.join()
+    }
+  },
+  methods: {
+    register () {
+      this.$router.push('/register/verify')
     }
   }
 })
