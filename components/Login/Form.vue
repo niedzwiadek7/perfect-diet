@@ -18,7 +18,7 @@
         <UIIconsLoginPassword slot="icon" class="icon" />
       </UIInput>
 
-      <NuxtLink to="/login/reset" class="forgot-password">
+      <NuxtLink to="/login/email" class="forgot-password">
         Zapomniałeś hasła?
       </NuxtLink>
 

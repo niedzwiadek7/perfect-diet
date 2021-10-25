@@ -5,10 +5,17 @@
       class="code"
       :length="4"
     />
-    <div class="expires-time">
-      Kod wygaśnie za: <span class="time"> 03:12 </span>
+    <div v-if="!isTimeEnded" class="expires-time">
+      kod wygaśnie za: <span class="time"> {{ timeFormat }} </span>
     </div>
-    <UIButtonSimple class="next-step">
+    <div v-else class="expires-time">
+      twój kod właśnie wygasł
+    </div>
+    <UIButtonSimple
+      v-if="!isTimeEnded"
+      class="next-step"
+      @click="checkCode()"
+    >
       Następny krok
     </UIButtonSimple>
     <UIButtonSimple class="send-again">
@@ -19,11 +26,36 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { minutesFormat } from '@/utils/format/time'
 
 export default Vue.extend({
   data () {
     return {
-      code: '' as String
+      code: '' as String,
+      time: 0 as number
+    }
+  },
+  computed: {
+    isTimeEnded () {
+      return this.$data.time === 0
+    },
+    timeFormat () {
+      return minutesFormat(this.$data.time)
+    }
+  },
+  created () {
+    this.time = 500
+    this.calcTime()
+  },
+  methods: {
+    calcTime () {
+      this.time = this.time - 1
+      if (this.time > 0) {
+        setTimeout(() => this.calcTime(), 1000)
+      }
+    },
+    checkCode () {
+      this.$router.push('/login/set-password')
     }
   }
 })
@@ -41,7 +73,14 @@ export default Vue.extend({
 
   }
   .expires-time {
-    margin-top: 3em;
+    margin-top: 5em;
+    font-weight: 500;
+    .time {
+      margin-left: .2em;
+      font-size: 1.1em;
+      color: var.$error;
+      letter-spacing: 1px;
+    }
   }
   .next-step {
     --bgColor: #1FCC79; // FIXME powinna być przypisana wartość SCSS var.$main
