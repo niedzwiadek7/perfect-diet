@@ -16,12 +16,12 @@
 
     // define background color to after element
     @if $isDarker {
-      background-color: black;
+      background-color: var.$text;
     } @else {
-      background-color: white;
+      background-color: var.$light-text-16;
     }
 
-    z-index: 1;
+    z-index: zindex.$z-index-1;
     opacity: 0;
     transition: $time ease-in;
     will-change: opacity;
