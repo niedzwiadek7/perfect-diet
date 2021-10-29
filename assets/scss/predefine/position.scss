@@ -37,6 +37,12 @@
   right: $right;
 }
 
+@mixin fixed-bottom-left($bottom, $left) {
+  position: fixed;
+  bottom: $bottom;
+  left: $left;
+}
+
 // ---------- special ---------- //
 @mixin full-fill() {
   @include bottom-left(0, 0);
