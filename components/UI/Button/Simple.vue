@@ -15,7 +15,7 @@
 // color -> text color
 
 .btn {
-  @include lighting.lighting(.2, .3s);
+  @include lighting.lighting(.1, .3s, var.$text);
   padding: 15px;
   color: var(--color);
   font-weight: 300;
