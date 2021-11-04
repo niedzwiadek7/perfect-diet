@@ -45,7 +45,8 @@ export default Vue.extend({
       default: ''
     },
     options: {
-      type: Array as PropType<Array<String>>,
+      // options should be in enums
+      type: Object as PropType<Record<string, string>>,
       required: true
     }
   }
