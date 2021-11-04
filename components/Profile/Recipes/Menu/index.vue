@@ -26,20 +26,22 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
+import { CategoryRecipes } from '@/assets/interface/Content/User/Profile'
 
 export default Vue.extend({
   props: {
     value: {
-      type: String,
-      required: true
-    },
-    possibleOptions: {
-      type: Array as PropType<Array<String>>,
+      type: String as PropType<CategoryRecipes>,
       required: true
     }
   },
+  data () {
+    return {
+      possibleOptions: CategoryRecipes
+    }
+  },
   methods: {
-    ischecked (value: String): boolean {
+    ischecked (value: CategoryRecipes): boolean {
       return value === this.value
     }
   }
