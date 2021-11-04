@@ -24,8 +24,8 @@ export const actions: ActionTree<RootState, RootState> = {
     const recipes: Array<Recipe> = await app.$axios.$get('/test/Profile/Recipes/data2.json')
     commit('setState', recipes)
   },
-  async getBreakfastRecipes ({ commit }, { app }) {
-    const recipes: Array<Recipe> = await app.$axios.$get('/test/Profile/Recipes/databreakfast1.json')
+  async getLikedRecipes ({ commit }, { app, category }) {
+    const recipes: Array<Recipe> = await app.$axios.$get(`/test/Profile/Recipes/data${category}1.json`)
     commit('setState', recipes)
   }
 }

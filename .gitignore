@@ -91,3 +91,6 @@ sw.*
 
 # nuxt-storm
 .components.gen.js
+
+# Files testing
+static/test
