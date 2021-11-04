@@ -59,7 +59,10 @@ export default Vue.extend({
 @use './assets/scss/predefine/position';
 @use './assets/scss/predefine/flex';
 @use './assets/scss/predefine/link';
+@use './assets/scss/predefine/text';
 @use './assets/scss/var';
+
+// FIXME resolve problem with width (160px)
 
 .wrapper-element {
   @include link.reset(var.$text);
@@ -75,6 +78,9 @@ export default Vue.extend({
     }
   }
   .title {
+    @include text.ellipsis-text;
+    width: 160px;
+    padding: 0;
     margin-top: 1em;
     font-size: 1.1em;
     font-weight: 600;
