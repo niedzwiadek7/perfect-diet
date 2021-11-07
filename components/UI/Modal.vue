@@ -27,6 +27,20 @@ export default Vue.extend({
       required: true
     }
   },
+  watch: {
+    value: {
+      handler (newValue) {
+        const body: (HTMLElement | null) = document.querySelector('body')
+        if (body !== null) {
+          if (newValue) {
+            body.style.overflow = 'hidden'
+          } else {
+            body.style.overflow = 'auto'
+          }
+        }
+      }
+    }
+  },
   methods: {
     hideModal () {
       this.$emit('input', false)
