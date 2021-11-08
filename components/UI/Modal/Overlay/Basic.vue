@@ -50,10 +50,10 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-@use './assets/scss/predefine/position';
-@use './assets/scss/predefine/flex';
-@use './assets/scss/predefine/zindex';
-@use './assets/scss/var';
+@use '../../../../assets/scss/predefine/position';
+@use '../../../../assets/scss/predefine/flex';
+@use '../../../../assets/scss/predefine/zindex';
+@use '../../../../assets/scss/var';
 
 .wrapper-modal {
   @include position.fixed-top-left(0, 0);
