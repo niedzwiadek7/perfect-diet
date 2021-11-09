@@ -1,10 +1,11 @@
-import Day from '@/assets/interface/User/Day';
+import Day from '@/assets/interface/User/Day'
 
 interface User {
-  fistName: string,
+  _id: string,
+  firstName: string,
   lastName: string,
   email: string,
-  photo: string,
+  photo: (string | null),
   updated: boolean,
   recipes: Array<string>,
   menu: Array<Day>,
