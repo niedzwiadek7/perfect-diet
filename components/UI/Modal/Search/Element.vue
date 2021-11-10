@@ -74,6 +74,7 @@ export default Vue.extend({
   padding: 1em 1em .6em;
   background-color: var.$light-text-16;
   border-radius: .5em;
+  box-shadow: -12px 11px 24px -30px black;
   .photo {
     @include flex.center-center;
     width: 4.5em;
@@ -90,10 +91,10 @@ export default Vue.extend({
     }
   }
   .content {
-    width: 100%;
+    width: calc(100% - 6.5em);
     .title {
       @include text.ellipsis-text;
-      font-size: 1.2em;
+      font-size: 1.3em;
       text-transform: capitalize;
     }
   }

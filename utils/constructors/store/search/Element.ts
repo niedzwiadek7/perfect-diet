@@ -11,7 +11,8 @@ export const createElementFromUser = (element: User): Element => {
     photo: element.photo && element.photo.length > 0
       ? element.photo
       : undefined,
-    type: Types.users
+    type: Types.users,
+    description: element.description
   }
 }
 export const createElementFromRecipe = (element: Recipe): Element => {
@@ -21,7 +22,8 @@ export const createElementFromRecipe = (element: Recipe): Element => {
     photo: element.photo.length > 0
       ? element.photo[0]
       : undefined,
-    type: Types.recipes
+    type: Types.recipes,
+    description: element.description
   }
 }
 
@@ -32,6 +34,7 @@ export const createElementFromIngredient = (element: Ingredient): Element => {
     photo: element.photo && element.photo.length > 0
       ? element.photo
       : undefined,
-    type: Types.ingredients
+    type: Types.ingredients,
+    description: element.description
   }
 }
