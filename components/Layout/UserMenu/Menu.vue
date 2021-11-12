@@ -43,6 +43,29 @@
         </LayoutUserMenuElement>
       </li>
 
+      <li
+        class="element-wrapper"
+        @click="showSearch = true"
+      >
+        <LayoutUserMenuElement
+          link="#"
+          value="Wyszukaj"
+          class="wrapper"
+        >
+          <font-awesome-icon
+            slot="icon"
+            class="icon"
+            :icon="['fas', 'search']"
+          />
+        </LayoutUserMenuElement>
+      </li>
+
+      <UIModalOverlayDefault
+        v-model="showSearch"
+      >
+        <UIModalSearch />
+      </UIModalOverlayDefault>
+
       <li class="element-wrapper">
         <LayoutUserMenuElement
           link="/notifications"
@@ -80,13 +103,7 @@ import Vue from 'vue'
 export default Vue.extend({
   data () {
     return {
-      list: [
-        'Profil',
-        'Dodaj nowy',
-        'Menu',
-        'Powiadomienia',
-        'Zakupy'
-      ] as Array<string>
+      showSearch: false as boolean
     }
   }
 })

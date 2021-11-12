@@ -9,11 +9,11 @@
         :icon="['fas', 'share-alt']"
       />
     </div>
-    <UIModal v-model="modals.share">
+    <UIModalOverlayBasic v-model="modals.share">
       <UIModalShare
         :link-path="getLinkPath()"
       />
-    </UIModal>
+    </UIModalOverlayBasic>
     <figure class="user-image">
       <img
         class="image"
