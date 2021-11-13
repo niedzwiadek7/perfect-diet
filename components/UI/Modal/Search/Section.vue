@@ -73,7 +73,8 @@ export default Vue.extend({
             break
         }
       },
-      deep: true
+      deep: true,
+      immediate: true
     }
   }
 })

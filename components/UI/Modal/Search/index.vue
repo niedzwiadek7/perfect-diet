@@ -22,7 +22,10 @@
       </button>
     </div>
 
-    <div class="wrapper-search-results">
+    <div
+      v-if="searchStatus === 'SEARCH_SUCCESS'"
+      class="wrapper-search-results"
+    >
       <UIModalSearchSection
         v-for="category in searchState"
         :key="category.title"
@@ -31,6 +34,16 @@
         class="wrapper-section"
       />
     </div>
+
+    <UILoading
+      v-if="searchStatus === 'SEARCHING'"
+      class="searching"
+    />
+
+    <UIModalSearchError
+      v-else-if="searchStatus === 'ERROR'"
+      class="error"
+    />
 
     <div class="wrapper-desc-control">
       <UIModalSearchButton />
@@ -52,7 +65,8 @@ export default Vue.extend({
   },
   computed: {
     ...mapGetters({
-      searchState: 'search/getCategories'
+      searchState: 'search/getCategories',
+      searchStatus: 'search/getSearchStatus'
     }),
     countResults () {
       let count: number = 0
@@ -138,6 +152,16 @@ export default Vue.extend({
     .wrapper-section {
       margin-bottom: 1.5em;
     }
+  }
+
+  .searching {
+    --color: #1FCC79; // FIXME shuold be SCSS value var.$main;
+    --size: 6px;
+    margin-top: 15%;
+  }
+
+  .error {
+    margin-top: 15%;
   }
 
   .wrapper-desc-control {

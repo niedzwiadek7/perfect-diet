@@ -1,4 +1,4 @@
-import { GetterTree, ActionTree } from 'vuex'
+import { ActionTree, GetterTree, MutationTree } from 'vuex'
 import SearchStatus from '~/assets/interface/enums/Search/SearchStatus'
 import Category from '~/assets/interface/Store/Search/Category'
 import isMatch, { TypeofResult } from '~/utils/validators/object/isMatch'
@@ -27,17 +27,47 @@ export const getters: GetterTree<RootState, RootState> = {
       }
     }
     return result
+  },
+  getSearchStatus: state => state.searchStatus
+}
+
+export const mutations: MutationTree<RootState> = {
+  setSearchStatus (state, searchStatus) {
+    state.searchStatus = searchStatus
   }
 }
 
 export const actions: ActionTree<RootState, RootState> = {
-  search ({ dispatch }, { phrase, limit }) {
-    const findTemplate = {
-      phrase,
-      limit
+  async search ({ commit, dispatch, state }, { phrase, limit }) {
+    const resetStates = () => {
+      commit('recipes/setRecipes', [])
+      commit('ingredients/setIngredients', [])
+      commit('users/setUsers', [])
     }
-    dispatch('recipes/search', findTemplate)
-    dispatch('ingredients/search', findTemplate)
-    dispatch('users/search', findTemplate)
+
+    try {
+      if (state.searchStatus === SearchStatus.WAITING) {
+        commit('setSearchStatus', SearchStatus.SEARCHING)
+      }
+      if (phrase.length > 0) {
+        const findTemplate = {
+          phrase,
+          limit
+        }
+        await dispatch('recipes/search', findTemplate)
+        await dispatch('ingredients/search', findTemplate)
+        await dispatch('users/search', findTemplate)
+        commit('setSearchStatus', SearchStatus.SEARCH_SUCCESS)
+      } else {
+        resetStates()
+        commit('setSearchStatus', SearchStatus.WAITING)
+      }
+    } catch (err) {
+      resetStates()
+      commit('setSearchStatus', SearchStatus.ERROR)
+      if (process.env.NODE_ENV !== 'production') {
+        console.log(err)
+      }
+    }
   }
 }
