@@ -11,12 +11,9 @@
       :key="element._id"
       :value="element"
       :is-active="false"
+      :search-text="searchText"
       class="wrapper-element"
-    >
-      <div slot="desc" class="wrapper-desc">
-        {{ element.description }}
-      </div>
-    </UIModalSearchElement>
+    />
   </div>
 </template>
 
@@ -41,6 +38,10 @@ export default Vue.extend({
     },
     list: {
       type: Array as PropType<Array<(Recipe | User | Ingredient)>>,
+      required: true
+    },
+    searchText: {
+      type: String,
       required: true
     }
   },
@@ -92,9 +93,6 @@ export default Vue.extend({
   }
   .wrapper-element {
     margin-top: .5em;
-    .wrapper-desc {
-      @include text.ellipsis-text;
-    }
   }
 }
 </style>

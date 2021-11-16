@@ -18,9 +18,21 @@
     </div>
     <div class="content">
       <div class="title">
-        {{ value.name }}
+        <HighlightText
+          :queries="[ searchText ]"
+          :highlight-style="lightingClass"
+        >
+          {{ value.name }}
+        </HighlightText>
       </div>
-      <slot name="desc" />
+      <div class="desc">
+        <HighlightText
+          :queries="[ searchText ]"
+          :highlight-style="lightingClass"
+        >
+          {{ value.description }}
+        </HighlightText>
+      </div>
     </div>
     <div class="active-sign">
       <font-awesome-icon
@@ -37,6 +49,10 @@ import Element from '~/assets/interface/Content/Search/Element'
 import Types from '~/assets/interface/Content/Search/Types'
 
 export default Vue.extend({
+  components: {
+    // https://github.com/AlbertLucianto/vue-text-highlight
+    HighlightText: async () => await require('vue-text-highlight')
+  },
   props: {
     value: {
       type: Object as PropType<Element>,
@@ -45,6 +61,31 @@ export default Vue.extend({
     isActive: {
       type: Boolean,
       required: true
+    },
+    searchText: {
+      type: String,
+      required: true
+    }
+  },
+  data () {
+    return {
+      title: this.value.name,
+      activeLighting: {
+        background: 'transparent',
+        color: 'white',
+        textDecoration: 'underline'
+      },
+      unActiveLighting: {
+        background: 'transparent',
+        color: '#1FCC79'
+      }
+    }
+  },
+  computed: {
+    lightingClass () {
+      return this.isActive
+        ? this.$data.activeLighting
+        : this.$data.unActiveLighting
     }
   },
   methods: {
@@ -95,7 +136,11 @@ export default Vue.extend({
     .title {
       @include text.ellipsis-text;
       font-size: 1.3em;
+      font-weight: 500;
       text-transform: capitalize;
+    }
+    .desc {
+      @include text.ellipsis-text;
     }
   }
   .active-sign {

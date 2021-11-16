@@ -31,6 +31,7 @@
         :key="category.title"
         :title="category.title"
         :list="category.list"
+        :search-text="searchText"
         class="wrapper-section"
       />
     </div>
