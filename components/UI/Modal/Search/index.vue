@@ -47,7 +47,35 @@
     />
 
     <div class="wrapper-desc-control">
-      <UIModalSearchButton />
+      <div class="instruction">
+        <UIModalSearchButton class="button">
+          <UIIconsKeyEnter slot="icon" class="icon" />
+        </UIModalSearchButton>
+        <span class="text">
+          do wyboru
+        </span>
+      </div>
+
+      <div class="instruction">
+        <UIModalSearchButton class="button">
+          <UIIconsKeyBottom slot="icon" class="icon" />
+        </UIModalSearchButton>
+        <UIModalSearchButton class="button">
+          <UIIconsKeyTop slot="icon" class="icon" />
+        </UIModalSearchButton>
+        <span class="text">
+          do nawigowania
+        </span>
+      </div>
+
+      <div class="instruction">
+        <UIModalSearchButton class="button">
+          <UIIconsKeyEsc slot="icon" class="icon" />
+        </UIModalSearchButton>
+        <span class="text">
+          do zamknięcia
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -149,6 +177,8 @@ export default Vue.extend({
   }
   .wrapper-search-results {
     width: 100%;
+    height: 85%;
+    margin-bottom: 1.5em;
     overflow: scroll;
     .wrapper-section {
       margin-bottom: 1.5em;
@@ -167,8 +197,22 @@ export default Vue.extend({
 
   .wrapper-desc-control {
     @include position.bottom-left(0, 0);
+    @include flex.around-center;
     width: 100%;
+    padding: .8em 0;
     background-color: var.$light-text-16;
+    .instruction {
+      @include flex.center-center;
+      .button {
+        margin-right: .5em;
+        .icon {
+          --icon-color: #666; //FIXME should be SCSS property var.$light-text-6
+        }
+      }
+      .text {
+        color: var.$light-text-6;
+      }
+    }
   }
 }
 </style>
