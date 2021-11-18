@@ -2,9 +2,9 @@
   <div class="wrapper-search">
     <div class="wrapper-input-section">
       <UIInput
-        ref="input"
         v-model="searchText"
         type="text"
+        :auto-focus="true"
         placeholder="Szukaj..."
         class="input"
       >

@@ -2,6 +2,7 @@
   <div class="wrapper">
     <slot name="icon" class="icon" />
     <input
+      ref="input"
       :type="type !== 'password' ? type : (show ? 'text' : type)"
       class="input-type-text"
       :placeholder="placeholder"
@@ -36,11 +37,23 @@ export default Vue.extend({
       default () {
         return ''
       }
+    },
+    autoFocus: {
+      type: Boolean,
+      required: false,
+      default () {
+        return false
+      }
     }
   },
   data () {
     return {
       show: false as Boolean
+    }
+  },
+  mounted () {
+    if (this.autoFocus) {
+      (this.$refs.input as HTMLInputElement).focus()
     }
   },
   methods: {
