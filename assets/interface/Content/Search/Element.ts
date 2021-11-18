@@ -5,7 +5,8 @@ interface Element {
   name: string,
   photo: (string | undefined),
   type: Types,
-  description: string
+  description: string,
+  link: (string | null)
 }
 
 export default Element

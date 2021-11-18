@@ -12,7 +12,8 @@ export const createElementFromUser = (element: User): Element => {
       ? element.photo
       : undefined,
     type: Types.users,
-    description: element.description
+    description: element.description,
+    link: `/user/${element._id}`
   }
 }
 export const createElementFromRecipe = (element: Recipe): Element => {
@@ -23,7 +24,8 @@ export const createElementFromRecipe = (element: Recipe): Element => {
       ? element.photo[0]
       : undefined,
     type: Types.recipes,
-    description: element.description
+    description: element.description,
+    link: `/recipe/${element._id}`
   }
 }
 
@@ -35,6 +37,7 @@ export const createElementFromIngredient = (element: Ingredient): Element => {
       ? element.photo
       : undefined,
     type: Types.ingredients,
-    description: element.description
+    description: element.description,
+    link: null
   }
 }

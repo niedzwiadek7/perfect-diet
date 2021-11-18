@@ -13,6 +13,7 @@
       :is-active="false"
       :search-text="searchText"
       class="wrapper-element"
+      @enableModal="e => $emit('enableModal', e)"
     />
   </div>
 </template>

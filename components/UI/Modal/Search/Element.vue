@@ -2,6 +2,7 @@
   <div
     class="wrapper-element"
     :class="isActive && 'active'"
+    @click="route()"
   >
     <div class="photo">
       <img
@@ -97,6 +98,13 @@ export default Vue.extend({
           return ['fas', 'feather']
         case Types.ingredients:
           return ['fas', 'flask']
+      }
+    },
+    route () {
+      if (this.value.link) {
+        this.$router.push(this.value.link)
+      } else {
+        this.$emit('enableModal', this.value)
       }
     }
   }

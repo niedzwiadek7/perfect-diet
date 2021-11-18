@@ -22,6 +22,15 @@
       </button>
     </div>
 
+    <UIModalOverlayBasic
+      v-model="showModal"
+      class="modal"
+    >
+      <UIModalIngredient
+        :element="element"
+      />
+    </UIModalOverlayBasic>
+
     <div
       v-if="searchStatus === 'SEARCH_SUCCESS'"
       class="wrapper-search-results"
@@ -33,6 +42,7 @@
         :list="category.list"
         :search-text="searchText"
         class="wrapper-section"
+        @enableModal="enableModal"
       />
     </div>
 
@@ -85,11 +95,14 @@ import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import lazyWatch from '~/utils/time/lazyWatch'
 import Category from '~/assets/interface/Store/Search/Category'
+import Element from '~/assets/interface/Content/Search/Element'
 
 export default Vue.extend({
   data () {
     return {
-      searchText: '' as string
+      searchText: '' as string,
+      showModal: false as boolean,
+      element: null as (Element | null)
     }
   },
   computed: {
@@ -118,6 +131,12 @@ export default Vue.extend({
           })
       },
       immediate: true
+    }
+  },
+  methods: {
+    enableModal (element: Element) {
+      this.showModal = true
+      this.element = element
     }
   }
 })
@@ -175,6 +194,11 @@ export default Vue.extend({
       border: 0;
     }
   }
+
+  .modal {
+    z-index: zindex.$z-index-13;
+  }
+
   .wrapper-search-results {
     width: 100%;
     height: 85%;
