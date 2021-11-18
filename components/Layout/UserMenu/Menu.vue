@@ -63,7 +63,9 @@
       <UIModalOverlayDefault
         v-model="showSearch"
       >
-        <UIModalSearch />
+        <UIModalSearch
+          @close="showSearch = false"
+        />
       </UIModalOverlayDefault>
 
       <li class="element-wrapper">
