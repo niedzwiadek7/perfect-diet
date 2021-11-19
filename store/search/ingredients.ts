@@ -1,12 +1,16 @@
 import { GetterTree, ActionTree, MutationTree } from 'vuex'
 import Ingredient from '@/assets/interface/Ingredient'
+import Element from '~/assets/interface/Content/Search/Element'
 import Category from '~/assets/interface/Store/Search/Category'
+import {
+  createElementFromIngredient
+} from '~/utils/constructors/store/search/Element'
 
 const address = 'https://recipe-server-2709.herokuapp.com/api'
 
 export const state = (): Category => {
   return {
-    list: [] as Array<Ingredient>,
+    list: [] as Array<Element>,
     title: 'Składniki' as string
   }
 }
@@ -19,11 +23,8 @@ export const getters: GetterTree<SearchIngredientState, SearchIngredientState> =
 }
 
 export const mutations: MutationTree<SearchIngredientState> = {
-  setIngredients (state, Ingredients: Array<Ingredient>) {
+  setIngredients (state, Ingredients: Array<Element>) {
     state.list = Ingredients
-  },
-  clearIngredients (state) {
-    state.list = []
   }
 }
 
@@ -33,6 +34,10 @@ export const actions: ActionTree<SearchIngredientState, SearchIngredientState> =
       word: phrase,
       limit
     }) as Array<Ingredient>
-    commit('setIngredients', results)
+    const resultElementsList: Array<Element> = []
+    results.forEach((ingredient) => {
+      resultElementsList.push(createElementFromIngredient(ingredient))
+    })
+    commit('setIngredients', resultElementsList)
   }
 }

@@ -1,12 +1,16 @@
 import { GetterTree, ActionTree, MutationTree } from 'vuex'
 import Recipe from '@/assets/interface/Recipe/Recipe'
+import Element from '~/assets/interface/Content/Search/Element'
 import Category from '~/assets/interface/Store/Search/Category'
+import {
+  createElementFromRecipe
+} from '~/utils/constructors/store/search/Element'
 
 const address = 'https://recipe-server-2709.herokuapp.com/api'
 
 export const state = (): Category => {
   return {
-    list: [] as Array<Recipe>,
+    list: [] as Array<Element>,
     title: 'Przepisy' as string
   }
 }
@@ -19,11 +23,8 @@ export const getters: GetterTree<SearchRecipeState, SearchRecipeState> = {
 }
 
 export const mutations: MutationTree<SearchRecipeState> = {
-  setRecipes (state, recipes: Array<Recipe>) {
+  setRecipes (state, recipes: Array<Element>) {
     state.list = recipes
-  },
-  clearRecipes (state) {
-    state.list = []
   }
 }
 
@@ -32,7 +33,11 @@ export const actions: ActionTree<SearchRecipeState, SearchRecipeState> = {
     const results = await this.$axios.$post(`${address}/search/recipe`, {
       word: phrase,
       limit
-    }) as Recipe[]
-    commit('setRecipes', results)
+    }) as Array<Recipe>
+    const resultElementsList: Array<Element> = []
+    results.forEach((recipe) => {
+      resultElementsList.push(createElementFromRecipe(recipe))
+    })
+    commit('setRecipes', resultElementsList)
   }
 }

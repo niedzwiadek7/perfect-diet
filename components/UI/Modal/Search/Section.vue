@@ -7,7 +7,7 @@
       {{ title }}
     </h5>
     <UIModalSearchElement
-      v-for="element in elementsList"
+      v-for="element in list"
       :key="element._id"
       :value="element"
       :is-active="false"
@@ -25,11 +25,6 @@ import Types from '~/assets/interface/Content/Search/Types'
 import Ingredient from '~/assets/interface/Ingredient'
 import Recipe from '~/assets/interface/Recipe/Recipe'
 import User from '~/assets/interface/User/User'
-import {
-  createElementFromUser,
-  createElementFromIngredient,
-  createElementFromRecipe
-} from '~/utils/constructors/store/search/Element'
 
 export default Vue.extend({
   props: {
@@ -44,42 +39,6 @@ export default Vue.extend({
     searchText: {
       type: String,
       required: true
-    }
-  },
-  data () {
-    return {
-      elementsList: [] as Array<Element>
-    }
-  },
-  watch: {
-    list: {
-      handler () {
-        switch (this.title) {
-          case Types.users:
-            this.elementsList = []
-            this.list.forEach((elem) => {
-              this.elementsList.push(createElementFromUser(elem as User))
-            })
-            break
-          case Types.recipes:
-            this.elementsList = []
-            this.list.forEach((elem) => {
-              this.elementsList.push(createElementFromRecipe(elem as Recipe))
-            })
-            break
-          case Types.ingredients:
-            this.elementsList = []
-            this.list.forEach((elem) => {
-              this.elementsList.push(createElementFromIngredient(elem as Ingredient))
-            })
-            break
-          default:
-            this.elementsList = (this.list as Array<Element>)
-            break
-        }
-      },
-      deep: true,
-      immediate: true
     }
   }
 })
