@@ -17,7 +17,7 @@ const isMatch = (arg: any, comparableTemplate: Record<string, TypeofResult>): bo
     return false
   }
 
-  for (const [key] of Object.entries(arg)) {
+  for (const [key] of Object.entries(comparableTemplate)) {
     if (!elementMatch(arg[key], comparableTemplate[key])) {
       return false
     }

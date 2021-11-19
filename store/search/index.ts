@@ -26,6 +26,16 @@ export const getters: GetterTree<RootState, RootState> = {
         result.push(value)
       }
     }
+
+    // recent first object in array
+    result.forEach((value, index) => {
+      if (value.title === 'Ostatnie') {
+        const element: Category = value
+        result.splice(index, 1)
+        result.unshift(element)
+      }
+    })
+
     return result
   },
   getSearchStatus: state => state.searchStatus
@@ -38,7 +48,7 @@ export const mutations: MutationTree<RootState> = {
 }
 
 export const actions: ActionTree<RootState, RootState> = {
-  async search ({ commit, dispatch, state }, { phrase, limit }) {
+  async search ({ commit, dispatch, state }, { app, phrase, limit }) {
     const resetStates = () => {
       commit('recipes/setRecipes', [])
       commit('ingredients/setIngredients', [])
@@ -57,6 +67,10 @@ export const actions: ActionTree<RootState, RootState> = {
         await dispatch('recipes/search', findTemplate)
         await dispatch('ingredients/search', findTemplate)
         await dispatch('users/search', findTemplate)
+        dispatch('recent/search', {
+          phrase,
+          app
+        })
         commit('setSearchStatus', SearchStatus.SEARCH_SUCCESS)
       } else {
         resetStates()

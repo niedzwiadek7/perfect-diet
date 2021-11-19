@@ -101,6 +101,10 @@ export default Vue.extend({
       }
     },
     route () {
+      this.$store.dispatch('search/recent/add', {
+        app: this,
+        element: this.value
+      })
       if (this.value.link) {
         this.$router.push(this.value.link)
       } else {

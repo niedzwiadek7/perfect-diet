@@ -38,7 +38,7 @@ export default Vue.extend({
       required: true
     },
     list: {
-      type: Array as PropType<Array<(Recipe | User | Ingredient)>>,
+      type: Array as PropType<Array<(Recipe | User | Ingredient | Element)>>,
       required: true
     },
     searchText: {
@@ -72,6 +72,9 @@ export default Vue.extend({
             this.list.forEach((elem) => {
               this.elementsList.push(createElementFromIngredient(elem as Ingredient))
             })
+            break
+          default:
+            this.elementsList = (this.list as Array<Element>)
             break
         }
       },

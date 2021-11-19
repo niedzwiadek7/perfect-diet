@@ -126,7 +126,8 @@ export default Vue.extend({
           () => {
             this.$store.dispatch('search/search', {
               phrase: newValue,
-              limit: 5
+              limit: 5,
+              app: this
             })
           })
       },
