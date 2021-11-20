@@ -32,6 +32,20 @@
     </UIModalOverlayBasic>
 
     <div
+      v-if="searchStatus === 'WAITING'"
+      class="wrapper-search-results"
+    >
+      <UIModalSearchSection
+        :key="searchState[0].title"
+        :title="searchState[0].title"
+        :list="searchState[0].list"
+        :search-text="searchText"
+        class="wrapper-section"
+        @enableModal="enableModal"
+      />
+    </div>
+
+    <div
       v-if="searchStatus === 'SEARCH_SUCCESS'"
       class="wrapper-search-results"
     >

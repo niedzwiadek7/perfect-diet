@@ -74,6 +74,9 @@ export const actions: ActionTree<RootState, RootState> = {
         commit('setSearchStatus', SearchStatus.SEARCH_SUCCESS)
       } else {
         resetStates()
+        dispatch('recent/get', {
+          app
+        })
         commit('setSearchStatus', SearchStatus.WAITING)
       }
     } catch (err) {
