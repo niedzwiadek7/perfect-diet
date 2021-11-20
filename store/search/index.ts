@@ -2,6 +2,7 @@ import { ActionTree, GetterTree, MutationTree } from 'vuex'
 import SearchStatus from '~/assets/interface/enums/Search/SearchStatus'
 import Category from '~/assets/interface/Store/Search/Category'
 import isMatch, { TypeofResult } from '~/utils/validators/object/isMatch'
+import moveElementInArray, { AmountChange, Place } from '~/utils/predefine/array/moveElement'
 
 export const state = () => {
   return {
@@ -28,13 +29,12 @@ export const getters: GetterTree<RootState, RootState> = {
     }
 
     // recent first object in array
-    result.forEach((value, index) => {
-      if (value.title === 'Ostatnie') {
-        const element: Category = value
-        result.splice(index, 1)
-        result.unshift(element)
-      }
-    })
+    moveElementInArray(
+      result,
+      (value: Category) => value.title === 'Ostatnie',
+      Place.start,
+      AmountChange.one
+    )
 
     return result
   },

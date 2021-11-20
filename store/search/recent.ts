@@ -1,6 +1,7 @@
-import { GetterTree, ActionTree, MutationTree } from 'vuex'
+import { ActionTree, GetterTree, MutationTree } from 'vuex'
 import Element from '~/assets/interface/Content/Search/Element'
 import Category from '~/assets/interface/Store/Search/Category'
+import moveElementInArray, { AmountChange, Place } from '~/utils/predefine/array/moveElement'
 
 export const state = (): Category => {
   return {
@@ -38,15 +39,21 @@ export const actions: ActionTree<SearchRecipeState, SearchRecipeState> = {
   },
   add ({ state, commit }, { app, element }) {
     const results: Array<Element> = app.$cookies.get('searchRecent') || []
-    const isAlreadyExist: boolean = results.every((value) => {
-      return value._id !== element._id
-    })
-    if (isAlreadyExist) {
+
+    if (!moveElementInArray(
+      results,
+      (value: Element) => value._id === element._id,
+      Place.start,
+      AmountChange.one
+    )) {
       results.unshift(element)
+
+      // deleting extra data
+      if (results.length > (state?.maxLength || 5)) {
+        results.pop()
+      }
     }
-    if (results.length > (state?.maxLength || 5)) {
-      results.pop()
-    }
+
     app.$cookies.set('searchRecent', results)
     commit('setRecent', results)
   }
