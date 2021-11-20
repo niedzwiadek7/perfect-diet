@@ -5,9 +5,9 @@ import moveElementInArray, { AmountChange, Place } from '~/utils/predefine/array
 
 export const state = (): Category => {
   return {
+    order: 1,
     list: [] as Array<Element>,
-    title: 'Ostatnie' as string,
-    maxLength: 5 as number
+    title: 'Ostatnie' as string
   }
 }
 
@@ -37,7 +37,7 @@ export const actions: ActionTree<SearchRecipeState, SearchRecipeState> = {
     })
     commit('setRecent', resultsFilter)
   },
-  add ({ state, commit }, { app, element }) {
+  add ({ commit }, { app, element, limit }) {
     const results: Array<Element> = app.$cookies.get('searchRecent') || []
 
     if (!moveElementInArray(
@@ -49,7 +49,7 @@ export const actions: ActionTree<SearchRecipeState, SearchRecipeState> = {
       results.unshift(element)
 
       // deleting extra data
-      if (results.length > (state?.maxLength || 5)) {
+      if (results.length > limit) {
         results.pop()
       }
     }

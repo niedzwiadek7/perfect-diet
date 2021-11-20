@@ -46,6 +46,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
+import { mapGetters } from 'vuex'
 import Element from '~/assets/interface/Content/Search/Element'
 import Types from '~/assets/interface/Content/Search/Types'
 
@@ -83,6 +84,9 @@ export default Vue.extend({
     }
   },
   computed: {
+    ...mapGetters({
+      limit: 'search/getLimit'
+    }),
     lightingClass () {
       return this.isActive
         ? this.$data.activeLighting
@@ -103,7 +107,8 @@ export default Vue.extend({
     route () {
       this.$store.dispatch('search/recent/add', {
         app: this,
-        element: this.value
+        element: this.value,
+        limit: this.limit
       })
       if (this.value.link) {
         this.$router.push(this.value.link)

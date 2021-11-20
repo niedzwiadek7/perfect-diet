@@ -2,11 +2,11 @@ import { ActionTree, GetterTree, MutationTree } from 'vuex'
 import SearchStatus from '~/assets/interface/enums/Search/SearchStatus'
 import Category from '~/assets/interface/Store/Search/Category'
 import isMatch, { TypeofResult } from '~/utils/validators/object/isMatch'
-import moveElementInArray, { AmountChange, Place } from '~/utils/predefine/array/moveElement'
 
 export const state = () => {
   return {
-    searchStatus: SearchStatus.WAITING as SearchStatus
+    searchStatus: SearchStatus.WAITING as SearchStatus,
+    limit: 5
   }
 }
 
@@ -28,17 +28,19 @@ export const getters: GetterTree<RootState, RootState> = {
       }
     }
 
-    // recent first object in array
-    moveElementInArray(
-      result,
-      (value: Category) => value.title === 'Ostatnie',
-      Place.start,
-      AmountChange.one
-    )
+    // sort result array
+    result.sort((a: Category, b: Category) => {
+      if (a.order < b.order) {
+        return -1
+      } else {
+        return 1
+      }
+    })
 
     return result
   },
-  getSearchStatus: state => state.searchStatus
+  getSearchStatus: state => state.searchStatus,
+  getLimit: state => state.limit
 }
 
 export const mutations: MutationTree<RootState> = {
@@ -48,7 +50,7 @@ export const mutations: MutationTree<RootState> = {
 }
 
 export const actions: ActionTree<RootState, RootState> = {
-  async search ({ commit, dispatch, state }, { app, phrase, limit }) {
+  async search ({ commit, dispatch, state }, { app, phrase }) {
     const resetStates = () => {
       commit('recipes/setRecipes', [])
       commit('ingredients/setIngredients', [])
@@ -62,7 +64,7 @@ export const actions: ActionTree<RootState, RootState> = {
       if (phrase.length > 0) {
         const findTemplate = {
           phrase,
-          limit
+          limit: state.limit
         }
         await dispatch('recipes/search', findTemplate)
         await dispatch('ingredients/search', findTemplate)

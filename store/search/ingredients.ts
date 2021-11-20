@@ -10,6 +10,7 @@ const address = 'https://recipe-server-2709.herokuapp.com/api'
 
 export const state = (): Category => {
   return {
+    order: 4,
     list: [] as Array<Element>,
     title: 'Składniki' as string
   }
