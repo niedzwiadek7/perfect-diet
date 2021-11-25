@@ -2,7 +2,8 @@
   <div
     class="wrapper-element"
     :class="isActive && 'active'"
-    @click="route()"
+    @click="$emit('route')"
+    @mouseover="$emit('active')"
   >
     <div class="photo">
       <img
@@ -46,7 +47,6 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
-import { mapGetters } from 'vuex'
 import Element from '~/assets/interface/Content/Search/Element'
 import Types from '~/assets/interface/Content/Search/Types'
 
@@ -84,15 +84,25 @@ export default Vue.extend({
     }
   },
   computed: {
-    ...mapGetters({
-      limit: 'search/getLimit'
-    }),
     lightingClass () {
       return this.isActive
         ? this.$data.activeLighting
         : this.$data.unActiveLighting
     }
   },
+  /* watch: {
+    isActive: {
+      handler (newValue: boolean) {
+        if (newValue) {
+        /*  const el: HTMLDivElement = this.$refs.element as HTMLDivElement
+          el.scrollIntoView({
+            behavior: 'smooth',
+            block: 'end'
+          })
+        }
+      }
+    }
+  }, */
   methods: {
     pickIcon (): Array<string> {
       switch (this.value.type) {
@@ -102,18 +112,6 @@ export default Vue.extend({
           return ['fas', 'feather']
         case Types.ingredients:
           return ['fas', 'flask']
-      }
-    },
-    route () {
-      this.$store.dispatch('search/recent/add', {
-        app: this,
-        element: this.value,
-        limit: this.limit
-      })
-      if (this.value.link) {
-        this.$router.push(this.value.link)
-      } else {
-        this.$emit('enableModal', this.value)
       }
     }
   }
@@ -175,6 +173,9 @@ export default Vue.extend({
       .icon {
         color: var.$text-on-main-light;
       }
+    }
+    .content {
+      width: calc(100% - 9em);
     }
     .active-sign {
       display: block;

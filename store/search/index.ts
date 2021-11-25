@@ -24,7 +24,10 @@ export const getters: GetterTree<RootState, RootState> = {
     for (const [key, value] of Object.entries(state)) {
       if (isMatch(value, expectedStructure)) {
         // @ts-ignore
-        result.push(value)
+        if (value.list.length > 0) {
+          // @ts-ignore
+          result.push(value)
+        }
       }
     }
 

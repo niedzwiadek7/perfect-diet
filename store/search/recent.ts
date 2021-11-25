@@ -37,7 +37,7 @@ export const actions: ActionTree<SearchRecipeState, SearchRecipeState> = {
     })
     commit('setRecent', resultsFilter)
   },
-  add ({ commit }, { app, element, limit }) {
+  add ({ dispatch }, { app, element, limit, phrase }) {
     const results: Array<Element> = app.$cookies.get('searchRecent') || []
 
     if (!moveElementInArray(
@@ -55,6 +55,9 @@ export const actions: ActionTree<SearchRecipeState, SearchRecipeState> = {
     }
 
     app.$cookies.set('searchRecent', results)
-    commit('setRecent', results)
+    dispatch('search', {
+      app,
+      phrase
+    })
   }
 }

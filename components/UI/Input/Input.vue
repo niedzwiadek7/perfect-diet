@@ -8,6 +8,9 @@
       :placeholder="placeholder"
       :value="value"
       @input="change($event.target.value)"
+      @keyup.up="$emit('keyup', 'UP')"
+      @keyup.down="$emit('keyup', 'DOWN')"
+      @keyup.enter="$emit('keyup', 'ENTER')"
     >
     <div v-if="type === 'password'" class="show-password" :class="{ hidden: show }" @click="toggleShow()">
       <font-awesome-icon

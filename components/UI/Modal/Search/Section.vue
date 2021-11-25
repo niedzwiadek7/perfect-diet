@@ -7,13 +7,14 @@
       {{ title }}
     </h5>
     <UIModalSearchElement
-      v-for="element in list"
+      v-for="(element, n) in list"
       :key="element._id"
       :value="element"
-      :is-active="false"
+      :is-active="activeElement === n + 1"
       :search-text="searchText"
       class="wrapper-element"
-      @enableModal="e => $emit('enableModal', e)"
+      @route="$emit('route')"
+      @active="$emit('active', n + 1)"
     />
   </div>
 </template>
@@ -39,6 +40,11 @@ export default Vue.extend({
     searchText: {
       type: String,
       required: true
+    },
+    activeElement: {
+      type: Number,
+      required: false,
+      default: null
     }
   }
 })

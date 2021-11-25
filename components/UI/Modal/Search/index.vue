@@ -2,11 +2,13 @@
   <div class="wrapper-search">
     <div class="wrapper-input-section">
       <UIInput
+        ref="input"
         v-model="searchText"
         type="text"
         :auto-focus="true"
         placeholder="Szukaj..."
         class="input"
+        @keyup="control"
       >
         <UIIconsSearch
           slot="icon"
@@ -27,7 +29,7 @@
       class="modal"
     >
       <UIModalIngredient
-        :element="element"
+        :element="activeElement"
       />
     </UIModalOverlayBasic>
 
@@ -36,17 +38,18 @@
       class="wrapper-search-results"
     >
       <UIModalSearchSection
+        v-if="searchState.toString()"
         :key="searchState[0].title"
         :title="searchState[0].title"
         :list="searchState[0].list"
         :search-text="searchText"
         class="wrapper-section"
-        @enableModal="enableModal"
       />
     </div>
 
     <div
-      v-if="searchStatus === 'SEARCH_SUCCESS'"
+      v-if="searchStatus === 'SEARCH_SUCCESS' && searchState.toString()"
+      ref="results"
       class="wrapper-search-results"
     >
       <UIModalSearchSection
@@ -55,10 +58,18 @@
         :title="category.title"
         :list="category.list"
         :search-text="searchText"
+        :active-element="category.order === active.order ? active.number : null"
         class="wrapper-section"
-        @enableModal="enableModal"
+        @active="n => changeActive(n, category.order)"
+        @route="route"
       />
     </div>
+
+    <UIModalSearchNoResults
+      v-if="searchStatus === 'SEARCH_SUCCESS' && !searchState.toString()"
+      class="error"
+      @changeInput="changeInput"
+    />
 
     <UILoading
       v-if="searchStatus === 'SEARCHING'"
@@ -109,6 +120,7 @@ import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import lazyWatch from '~/utils/time/lazyWatch'
 import Category from '~/assets/interface/Store/Search/Category'
+import Keyboard from '~/assets/interface/Content/Search/Keyboard'
 import Element from '~/assets/interface/Content/Search/Element'
 
 export default Vue.extend({
@@ -116,20 +128,26 @@ export default Vue.extend({
     return {
       searchText: '' as string,
       showModal: false as boolean,
-      element: null as (Element | null)
+      active: {
+        order: -1 as number,
+        number: 1 as number
+      }
     }
   },
   computed: {
     ...mapGetters({
       searchState: 'search/getCategories',
-      searchStatus: 'search/getSearchStatus'
+      searchStatus: 'search/getSearchStatus',
+      limit: 'search/getLimit'
     }),
-    countResults () {
-      let count: number = 0
-      this.searchState.forEach((elem: Category) => {
-        count += elem.list.length
+    activeElement (): (Element | null) {
+      const part: number = this.searchState.findIndex((category: Category) => {
+        return category.order === this.active.order
       })
-      return count
+      if (part === -1) {
+        return null
+      }
+      return this.searchState[part].list[this.active.number - 1]
     }
   },
   watch: {
@@ -142,15 +160,108 @@ export default Vue.extend({
               phrase: newValue,
               app: this
             })
+            this.active.order = -1
           })
       },
       immediate: true
+    },
+    showModal: {
+      async handler (newValue: boolean) {
+        if (!newValue) {
+          await this.$store.dispatch('search/recent/add', {
+            app: this,
+            element: this.activeElement,
+            limit: this.limit,
+            phrase: this.searchText
+          })
+          this.autoFocus()
+        }
+      },
+      immediate: false
     }
   },
   methods: {
-    enableModal (element: Element) {
-      this.showModal = true
-      this.element = element
+    changeInput (newValue: string) {
+      this.searchText = newValue
+      this.autoFocus()
+    },
+    changeActive (number: number, order: number) {
+      this.active.order = order
+      this.active.number = number
+    },
+    control (key: Keyboard) {
+      switch (key) {
+        case Keyboard.UP:
+          this.prev()
+          break
+        case Keyboard.DOWN:
+          this.next()
+          break
+        case Keyboard.ENTER:
+          this.route()
+          break
+      }
+    },
+    next () {
+      if (this.active.order === -1) {
+        this.active.order = this.searchState[0].order
+        this.active.number = 1
+      } else {
+        const part: number = this.searchState.findIndex((category: Category) => {
+          return category.order === this.active.order
+        })
+        const number = this.active.number
+        if (number >= this.searchState[part].list.length) {
+          if (part + 1 < this.searchState.length) {
+            this.active.order = this.searchState[part + 1].order
+            this.active.number = 1
+          }
+        } else {
+          this.active.order = this.searchState[part].order
+          this.active.number = number + 1
+        }
+      }
+    },
+    prev () {
+      if (this.active.order === -1) {
+        const lastElement: Category = this.searchState[this.searchState.length - 1]
+        this.active.order = lastElement.order
+        this.active.number = lastElement.list.length
+      } else {
+        const part: number = this.searchState.findIndex((category: Category) => {
+          return category.order === this.active.order
+        })
+        const number = this.active.number
+        if (number <= 1) {
+          if (part - 1 >= 0) {
+            this.active.order = this.searchState[part - 1].order
+            this.active.number = this.searchState[part - 1].list.length
+          }
+        } else {
+          this.active.order = this.searchState[part].order
+          this.active.number = number - 1
+        }
+      }
+    },
+    route () {
+      if (this.activeElement) {
+        if (this.activeElement.link) {
+          this.$store.dispatch('search/recent/add', {
+            app: this,
+            element: this.activeElement,
+            limit: this.limit,
+            phrase: this.searchText
+          })
+          this.$router.push(this.activeElement.link)
+        } else {
+          this.showModal = true
+        }
+      }
+    },
+    autoFocus () {
+      const inputWrapper: HTMLDivElement = this.$refs.input.$el as HTMLDivElement
+      const input: HTMLInputElement = inputWrapper.querySelector('input') as HTMLInputElement
+      input.focus()
     }
   }
 })

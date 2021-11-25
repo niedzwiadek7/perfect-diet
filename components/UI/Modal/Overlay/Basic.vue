@@ -41,6 +41,12 @@ export default Vue.extend({
       }
     }
   },
+  mounted () {
+    document.addEventListener('keydown', this.hideModal)
+  },
+  destroyed () {
+    document.removeEventListener('keydown', this.hideModal)
+  },
   methods: {
     hideModal () {
       this.$emit('input', false)
