@@ -50,6 +50,8 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 
+// FIXME resolve problem with input button (when click on button periphery, button dont work)
+
 export default Vue.extend({
   props: {
     value: {
@@ -82,11 +84,11 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-@use './assets/scss/effects/lighting';
-@use './assets/scss/predefine/position';
-@use './assets/scss/predefine/flex';
-@use './assets/scss/predefine/zindex';
-@use './assets/scss/var';
+@use '../../../../assets/scss/effects/lighting';
+@use '../../../../assets/scss/predefine/position';
+@use '../../../../assets/scss/predefine/flex';
+@use '../../../../assets/scss/predefine/zindex';
+@use '../../../../assets/scss/var';
 
 .wrapper {
   @include lighting.lighting-border-for-input(
@@ -112,9 +114,7 @@ export default Vue.extend({
       opacity: 0;
       cursor: pointer;
       z-index: zindex.$z-index-5;
-      &:focus {
-        outline: none;
-      }
+      outline: none;
     }
   }
   .wrapper-with-file {
@@ -143,9 +143,7 @@ export default Vue.extend({
           opacity: 0;
           cursor: pointer;
           z-index: zindex.$z-index-5;
-          &:focus {
-            outline: none;
-          }
+          outline: none;
         }
       }
       .delete-photo {
