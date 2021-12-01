@@ -2,6 +2,7 @@
   <div class="wrapper">
     <textarea
       ref="textarea"
+      :value="value"
       rows="3"
       :placeholder="placeholder"
       :maxlength="maxLength"
