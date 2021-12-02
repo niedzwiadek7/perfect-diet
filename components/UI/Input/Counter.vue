@@ -55,8 +55,11 @@ export default Vue.extend({
   .minus-symbol {
     font-size: 1.5em;
     font-weight: 700;
+    cursor: pointer;
+    user-select: none;
   }
   .input-count {
+    --moz-appearance: textfield;
     width: 100%;
     background: transparent;
     text-align: center;
@@ -64,9 +67,16 @@ export default Vue.extend({
     border-bottom: 2px solid var.$main;
     outline: none;
   }
+  .input-count::-webkit-outer-spin-button,
+  .input-count::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
   .plus-symbol {
     font-size: 1.5em;
     font-weight: 700;
+    cursor: pointer;
+    user-select: none;
   }
 }
 </style>

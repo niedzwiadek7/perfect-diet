@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper-steps">
     <h3 class="title">
-      Procedura
+      Składniki
     </h3>
 
     <Draggable
@@ -17,9 +17,6 @@
         class="step"
       >
         <div class="control">
-          <span class="number">
-            {{ n + 1 }}
-          </span>
           <div class="moving">
             <font-awesome-icon
               v-for="x in 2"
@@ -38,19 +35,34 @@
             />
           </div>
         </div>
-        <UIInputTextArea
-          type="text"
-          :value="element"
-          placeholder="Opisz kolejny krok"
-          class="input"
-          @input="v => input(n, v)"
-        />
+        <div class="input">
+          <UIInput
+            type="text"
+            :value="element.name"
+            placeholder="Wpisz składnik"
+            class="input-input"
+            @input="v => inputName(n, v)"
+          />
+          <div class="details">
+            <UIInputCounter
+              :value="element.quantity"
+              class="quantity"
+              @input="v => inputQuantity(n, v)"
+            />
+            <UIInputSelect
+              :value="element.unit"
+              :options="unit"
+              class="unit"
+              @input="v => inputUnit(n, v)"
+            />
+          </div>
+        </div>
       </div>
     </Draggable>
 
     <UIButtonSimple
       class="button"
-      @click="addStep()"
+      @click="addIngredient()"
     >
       <font-awesome-icon
         :icon="['fas', 'plus']"
@@ -66,6 +78,8 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 import Draggable from 'vuedraggable'
+import Ingredient from '@/assets/interface/Recipe/IngredientInRecipe'
+import Unit from '@/assets/interface/enums/Recipe/Unit'
 
 export default Vue.extend({
   components: {
@@ -73,30 +87,50 @@ export default Vue.extend({
   },
   props: {
     value: {
-      type: Array as PropType<Array<String>>,
+      type: Array as PropType<Array<Ingredient>>,
       required: true
+    }
+  },
+  data () {
+    return {
+      unit: Unit,
+      IngredientSchema: {
+        name: '',
+        quantity: 1,
+        unit: Unit.kg
+      } as Ingredient
     }
   },
   created () {
     if (this.value.length === 0) {
       for (let i = 0; i < 2; i++) {
-        this.addStep()
+        this.addIngredient()
       }
     }
   },
   methods: {
-    input (n: number, value: string) {
-      const array: Array<String> = this.value
-      array[n] = value
+    inputName (n: number, value: string) {
+      const array: Array<Ingredient> = this.value
+      array[n].name = value
       this.$emit('input', array)
     },
-    addStep () {
-      const array: Array<String> = this.value
-      array.push('')
+    inputQuantity (n: number, value: number) {
+      const array: Array<Ingredient> = this.value
+      array[n].quantity = value
+      this.$emit('input', array)
+    },
+    inputUnit (n: number, value: Unit) {
+      const array: Array<Ingredient> = this.value
+      array[n].unit = value
+      this.$emit('input', array)
+    },
+    addIngredient () {
+      const array: Array<Ingredient> = this.value
+      array.push({ ...this.IngredientSchema })
       this.$emit('input', array)
     },
     deleteStep (n: number) {
-      const array: Array<String> = this.value
+      const array: Array<Ingredient> = this.value
       array.splice(n, 1)
       this.$emit('input', array)
     }
@@ -110,7 +144,7 @@ export default Vue.extend({
 
 .wrapper-steps {
   .title {
-    margin-bottom: 2em;
+    margin-bottom: 1.5em;
     font-weight: 600;
   }
   .draggable {
@@ -124,21 +158,14 @@ export default Vue.extend({
       margin-bottom: 1.5em;
       .control {
         @include flex.center-center(column);
+        width: 2em;
         align-self: start;
-        margin-right: .7em;
-        .number {
-          @include flex.center-center;
-          width: 1.8em;
-          height: 1.8em;
-          margin-bottom: .5em;
-          background-color: var.$light-text-5;
-          font-weight: 600;
-          color: var.$light-text-16;
-          border-radius: 50%;
-          user-select: none;
+        margin: {
+          right: .7em;
+          top: .3em;
         }
         .moving {
-          margin-bottom: .25em;
+          margin-bottom: .5em;
           .icon {
             margin-left: 1px;
             color: var.$light-text-7;
@@ -153,7 +180,18 @@ export default Vue.extend({
         }
       }
       .input {
-        width: 100%;
+        .input-input {
+          margin-bottom: .25em;
+        }
+        .details {
+          @include flex.around-center;
+          .quantity {
+            width: 40%;
+          }
+          .unit {
+            width: 50%;
+          }
+        }
       }
     }
   }

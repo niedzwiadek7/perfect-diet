@@ -1,7 +1,7 @@
-import Unit from '../enums/Recipe/Unit';
+import Unit from '../enums/Recipe/Unit'
 
 interface IngredientInRecipe {
-  _id: string,
+  _id?: string,
   name: string,
   quantity: number,
   unit: Unit
