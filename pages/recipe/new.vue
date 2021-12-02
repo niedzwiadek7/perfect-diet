@@ -5,15 +5,17 @@
         <font-awesome-icon
           :icon="['fas', 'chevron-left']"
           class="icon"
+          @click="switchPage(-1)"
         />
         <font-awesome-icon
           :icon="['fas', 'chevron-right']"
           class="icon"
+          @click="switchPage(1)"
         />
       </div>
       <div class="page">
         <span class="actual">
-          1
+          {{ active }}
         </span>
         <span class="break">
           /
@@ -26,8 +28,14 @@
     <main>
       <section>
         <RecipeCreateFirstView
+          v-if="active === 1"
           v-model="recipe"
           class="first-view"
+        />
+        <RecipeCreateSecondView
+          v-if="active === 2"
+          v-model="recipe"
+          class="second-view"
         />
       </section>
     </main>
@@ -35,11 +43,19 @@
       <div class="first">
         <UIButtonSimple
           class="button"
+          @click="showModal = true"
         >
-          Następny
+          Utwórz przepis
         </UIButtonSimple>
       </div>
     </footer>
+    <UIModalOverlayBasic
+      v-model="showModal"
+    >
+      <RecipeCreateSuccessModal
+        @hide="showModal = false"
+      />
+    </UIModalOverlayBasic>
   </div>
 </template>
 
@@ -64,12 +80,32 @@ export default Vue.extend({
         category: Category.breakfast as Category,
         ingredients: [] as Array<IngredientInRecipe>,
         procedure: [] as Array<string>
-      } as Recipe
+      } as Recipe,
+      active: 1 as number,
+      showModal: false
     }
   },
   head () {
     return {
       title: 'Nowy przepis'
+    }
+  },
+  watch: {
+    showModal: {
+      handler (newValue: boolean) {
+        if (!newValue) {
+          this.$router.push('przepis')
+        }
+      }
+    }
+  },
+  methods: {
+    switchPage (n: number) {
+      let activeHelp = this.active
+      activeHelp += n
+      if (activeHelp === 1 || activeHelp === 2) {
+        this.active = activeHelp
+      }
     }
   }
 })
@@ -88,9 +124,11 @@ export default Vue.extend({
     @include flex.between-center;
     width: 90%;
     .control {
+      cursor: pointer;
       .icon {
         font-size: 1.4em;
         margin-right: .6em;
+        user-select: none;
       }
     }
     .page {
@@ -109,6 +147,9 @@ export default Vue.extend({
     height: calc(100vh - 18em);
     overflow: scroll;
     .first-view {
+
+    }
+    .second-view {
 
     }
   }

@@ -78,6 +78,7 @@ export default Vue.extend({
       @include position.top-right(2em, 2em);
       --color: #333; // FIXME shoul be SCSS property var.$light-text-3;
       --size: 1.5em;
+      cursor: pointer;
     }
   }
 }
