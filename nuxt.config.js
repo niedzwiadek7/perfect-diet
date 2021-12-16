@@ -20,6 +20,9 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    // https://www.npmjs.com/package/vue-tiny-slider
+    // https://github.com/ganlanyuan/tiny-slider#options
+    { src: '~/plugins/vue-tiny-slider.js', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
