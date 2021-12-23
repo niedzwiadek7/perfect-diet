@@ -14,7 +14,6 @@ export const state = () => {
 export type RootState = ReturnType<typeof state>
 
 export const getters: GetterTree<RootState, RootState> = {
-  isFind: state => Object.prototype.hasOwnProperty.call(state.recipe, '_id'),
   getRecipes: state => state.recipe,
   getAuthor: state => state.author,
   getRating: (state, userId: string) => {
