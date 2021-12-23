@@ -21,7 +21,7 @@ interface Recipe {
   author: string,
   serving: Number,
   comments: Array<Comment>,
-  rating: Rating,
+  rating: Array<Rating>,
   createdAt: Date,
   updatedAt: Date
 }
