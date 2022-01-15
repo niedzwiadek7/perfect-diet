@@ -12,8 +12,14 @@
     <div
       v-else-if="$fetchState.error"
     >
-      {{ $fetchState.error.response.status }}
-      Nie znaleziono
+      <UIErrorsNotFound
+        v-if="$fetchState.error.response.status === 404"
+        class="not-found"
+      />
+      <UIErrorsServerError
+        v-else
+        class="server-error"
+      />
     </div>
 
     <RecipePresentation

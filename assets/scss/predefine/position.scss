@@ -43,6 +43,13 @@
   left: $left;
 }
 
+// ---------- sticky ----------- //
+@mixin sticky-top-left($top, $left) {
+  position: sticky;
+  top: $top;
+  left: $left;
+}
+
 // ---------- special ---------- //
 @mixin full-fill() {
   @include bottom-left(0, 0);

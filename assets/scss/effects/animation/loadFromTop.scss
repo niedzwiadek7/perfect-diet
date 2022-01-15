@@ -1,0 +1,11 @@
+@mixin animation($move, $time) {
+  @keyframes loadFromTop {
+    from {
+      transform: translateY($move);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  animation: loadFromTop $time ease-in;
+}

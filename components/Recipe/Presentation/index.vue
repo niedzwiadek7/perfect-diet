@@ -29,27 +29,15 @@
         </div>
       </div>
       <UISeparationSpacing class="spacing" />
-      <RecipePresentationIngredients :ingredients="recipe.ingredients" />
+      <RecipePresentationIngredients
+        :ingredients="recipe.ingredients"
+        class="ingredients"
+      />
       <UISeparationSpacing class="spacing" />
-      <div class="procedure">
-        <h3 class="title">
-          Przygotowanie
-        </h3>
-        <ul class="list">
-          <li
-            v-for="(step, n) in recipe.procedure"
-            :key="step"
-            class="step"
-          >
-            <div class="number">
-              {{ n + 1 }}
-            </div>
-            <div class="value">
-              {{ step }}
-            </div>
-          </li>
-        </ul>
-      </div>
+      <RecipePresentationProcedure
+        :procedure="recipe.procedure"
+        class="procedure"
+      />
     </div>
   </div>
 </template>
@@ -75,13 +63,14 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+@use './assets/scss/predefine/position';
 @use './assets/scss/predefine/flex';
 @use './assets/scss/predefine/zindex';
 @use './assets/scss/var';
 
 .wrapper-recipe {
   .slider {
-    // sticky position
+    @include position.sticky-top-left(0, 0);
     .tns-item {
       width: 100%;
       height: 40vh;
